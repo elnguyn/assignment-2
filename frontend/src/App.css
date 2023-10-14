@@ -1,5 +1,5 @@
-.wrap{
-
+.row{
+    align-content: center;
 }
 
 .box{
@@ -8,9 +8,10 @@
     padding: 10px;
     border-radius: 5px;
     position: absolute;
-    top: 75px;
+    top: 10%;
     width: 25%;
     left: 37.5%;
+ 
 }
 
 .head{
@@ -33,7 +34,10 @@
 }
 
 .stat{
+    left: 37.5%;
+    top: 35%;
     width: 25%;
     text-align: center;
     border: none;
+    position: absolute;
 }

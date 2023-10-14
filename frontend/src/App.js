@@ -1,17 +1,40 @@
 import { useState, useEffect } from 'react';  // import useEffect
+import Contact from './components/Contact';
 import './App.css';
 
-function App() {
+//Build behind
+function Contact() {
 
+   return (
+       <div class='head'>
+           <App heading = 'Contactor'/>
+        </div>
+    );
+}
+
+
+//Build front
+function App(props) {
+     
+    const [newContact,createContact] = useState("");
+    function onChange(event)
+    {
+        createContact(event.target.value);
+    }
+    function onClick()
+    {
+        props.setContact(contacts =>[...contacts,{ id:contacts.length+1,
+                                                    description:newContact}]);
+    }
     return (
-    <div class='wrap'> 
-        <h1 class='head'>   Contactor </h1>   
+    <div> 
+        <h1 class='head'> {props.heading} </h1>   
         <div class='row'>
         <div class ='box'>     
             <h2 class ='head'> Contacts </h2>
-                <h3 class='head'><input type = "text" placeholder='Name'></input></h3>
+                <h3 class='head'><input type = "text" placeholder='Name' onChange={onChange}></input></h3>
                 <div class ='head'> 
-                <button type='button' class='green'>Create Contact</button>
+                    <button type='button' class='green' onClick={onClick}>Create Contact</button>
                 </div>
             
         </div>
