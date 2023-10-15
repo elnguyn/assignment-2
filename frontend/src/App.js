@@ -7,7 +7,7 @@ import './App.css';
 //Build front
 function App() {
 
-    const [contacts, setContact] = useState([]);
+    const [contact1, setContact] = useState([]);
     
     useEffect(() => {
         fetch('http://localhost/api/contacts')
@@ -20,7 +20,7 @@ function App() {
 
     return(
         <div class='head'>
-            <List heading = 'Contactor' contacts={contacts} setContact={setContact} />
+            <List heading = 'Contactor' contact1={contact1} setContact={setContact} />
         </div>
     );
   
