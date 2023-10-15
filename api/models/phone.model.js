@@ -6,6 +6,18 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
         },
         // DEFINE YOUR MODEL HERE
+        name: {
+            type: Sequelize.STRING,
+            validate: { notEmpty: true}
+        },
+        number:{
+            type: Sequelize.STRING,
+            validate: { notEmpty: true}
+        },
+        contactID: {
+            type: Sequelize.INTEGER,
+            foreignkey: true,
+        }
     });
   
     return Phone;
