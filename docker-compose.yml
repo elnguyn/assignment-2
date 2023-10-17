@@ -10,7 +10,7 @@ services:
     ports:
       - 80:80
     links:
-     - frontend
+    - frontend
       
   frontend:
     build: 
