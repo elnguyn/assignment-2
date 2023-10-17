@@ -16,7 +16,7 @@ function List(props) {
     }
 
     function addContact() {
-        fetch(host + '/contacts', { // Replaced ${host} with host
+        fetch(host + '/contacts', { // Replaced `${host}` with `host`
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ function List(props) {
     }
 
     useEffect(() => {
-        fetch(host + '/contacts') // Replaced ${host} with host
+        fetch(host + '/contacts') // Replaced `${host}` with `host`
             .then(response => response.json())
             .then(data => setContacts(data))
             .catch(error => console.error('Error:', error));
