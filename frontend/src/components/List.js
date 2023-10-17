@@ -1,71 +1,72 @@
 import { useState, useEffect } from 'react'; 
-function Update(props){
+
+function Contact(props){
 
     console.log(props)
-    
     return(
-        <div> {props.title} </div>
+        <div> </div>
     );
 }
 
 
 
 function List(props) {
+    const host = "http://localhost:5000/api";
+    const [contacts, setContacts] = useState([]);
+    const [newContact, setNewContact] = useState("");
 
-    const [newContact, createContact] = useState("");
-
-    function changeContact(event){
-        createContact(event.target.value);
+    function changeContact(event) {
+        setNewContact(event.target.value);
     }
 
     function addContact() {
-        fetch('http://localhost/api/contacts', {
+        fetch(`${host}/contacts`, {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ name: newContact })
         })
             .then(response => response.json())
             .then(data => {
-                props.setContact(contacts => [...contacts, data]);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-        createContact(""); // Clear the input field
+                if (data && data.id) {
+                    setContacts(prevContacts => [...prevContacts, data]);
+                } else {
+                    console.error('Error creating contact:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        setNewContact("");
     }
-        
+
+    useEffect(() => {
+        fetch(`${host}/contacts`)
+            .then(response => response.json())
+            .then(data => setContacts(data))
+            .catch(error => console.error('Error:', error));
+    }, []);
 
     return (
         <div>
-            <h1> {props.heading} </h1>
-            <h2> Contacts </h2>
+            <h1>{props.heading}</h1>
+            <h2>Contacts</h2>
             <div>
-            <input type='text' placeholder='Name' onChange={changeContact}></input>
-            <button type='button' class='green' onClick={addContact}>Create Contact</button>
+                <div>
+                    <input type='text' placeholder='Name' value={newContact} onChange={changeContact}></input>
+                    <button type='button' className='green' onClick={addContact}>Create Contact</button>
+                </div>
+                {contacts.map(contact => (
+                    <Contact
+                        setContacts={setContacts} // Changed the prop name to match state variable
+                        id={contact.id}
+                        key={contact.id}
+                    />
+                ))}
             </div>
         </div>
-     );
- }
- export default List;
+    );
+}
 
-
-
- //<div> 
-  //      <h1 class='head'> {props.heading} </h1>   
-    //    <div class='row'>
-      //  <div class ='box'>     
-        //    <h2 class ='head'> Contacts </h2>
-          //      <h3 class='head'><input type = "text" placeholder='Name' onChange={onChange}></input></h3>
-            //    <div class ='head'> 
-              //      <button type='button' class='green' onClick={onClick}>Create Contact</button>
-                //</div>
-            
-        //</div>
-        //<div class ='stat'>
-          //  <p>Click a contact to view associated phone numbers</p>
-           // <p>Show stats</p>
-        //</div>
-        //</div>
-    //</div>
+export default List;

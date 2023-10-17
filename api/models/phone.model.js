@@ -8,16 +8,19 @@ module.exports = (sequelize, Sequelize) => {
         // DEFINE YOUR MODEL HERE
         name: {
             type: Sequelize.STRING,
-            validate: { notEmpty: true}
+            allowNull: false
         },
         number:{
             type: Sequelize.STRING,
-            validate: { notEmpty: true}
+            allownull: false
         },
         contactID: {
             type: Sequelize.INTEGER,
             foreignkey: true,
         }
+    });
+    Phone.belongsTo(sequelize.models.Contact, {
+        foreignKey: 'contactID'
     });
   
     return Phone;

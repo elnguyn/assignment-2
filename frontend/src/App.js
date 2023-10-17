@@ -7,20 +7,21 @@ import './App.css';
 //Build front
 function App() {
 
-    const [contact1, setContact] = useState([]);
+    const [contacts, setContact] = useState([]);
     
     useEffect(() => {
-        fetch('http://localhost/api/contacts')
+      fetch('http://localhost/api/contacts')
         .then(response => response.json())
         .then(data => setContact(data))
         .catch((error) => {
-        console.error('Error:', error);
+          console.error('Error:', error);
         });
-        }, []);
+      }, []);
 
+    
     return(
         <div class='head'>
-            <List heading = 'Contactor' contact1={contact1} setContact={setContact} />
+            <List heading = 'Contactor' contacts={contacts} setContact={setContact} />
         </div>
     );
   

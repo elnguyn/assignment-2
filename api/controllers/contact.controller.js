@@ -5,17 +5,25 @@ const Op = db.Sequelize.Op;
 
 // Create contact
 exports.create = (req, res) => {
-    const contact = {
-        name: req.body.name
-    } 
-    Contacts.create(contact)
+    const { name } = req.body; // Destructure the name from the request body
+
+    if (!name) {
+        return res.status(400).send({
+            message: "Please fill in the name"
+        });
+    }
+
+    const newContact = {
+        name: name
+    };
+
+    Contacts.create(newContact)
         .then(data => {
-            res.send(data)
+            res.status(201).send(data); // Use status 201 for resource creation
         })
         .catch(err => {
             res.status(500).send({
-                message:
-                err.message || "Some error occurred"
+                message: err.message || "Some error occurred"
             });
         });
 };
@@ -35,10 +43,10 @@ exports.findAll = (req, res) => {
 
 // Get one contact by id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const Contactid = req.params.id;
 
     Contacts.findOne(req.body,{
-        where: {id:id}
+        where: {id:Contactid}
     })
     .then(data => {
         res.send(data)
@@ -53,10 +61,10 @@ exports.findOne = (req, res) => {
 
 // Update one contact by id
 exports.update = (req, res) => {
-    const id = req.params.id;
+    const Contactid = req.params.id;
 
     Contacts.update(req.body, {
-        where: {id:id}
+        where: {id:Contactid}
     })
     .then(num => {
         if (num == 1 ){
@@ -78,10 +86,10 @@ exports.update = (req, res) => {
 
 // Delete one contact by id
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const Contactid = req.params.id;
 
     Contacts.destroy({
-        where: { id:id }
+        where: { id:Contactid }
     })
     .then(num => {
         if (num == 1) {

@@ -8,7 +8,8 @@ module.exports = (sequelize, Sequelize) => {
         // DEFINE YOUR MODEL HERE
         name: {
             type: Sequelize.STRING,
-            validate: { notEmpty: true}
+            allownull: false,
+            unique: true
         },
     });
   
