@@ -5,106 +5,105 @@ const Op = db.Sequelize.Op;
 
 // Create contact
 exports.create = (req, res) => {
-    const { name } = req.body; // Destructure the name from the request body
-
+    const { name } = req.body;
+  
     if (!name) {
-        return res.status(400).send({
-            message: "Please fill in the name"
-        });
+      return res.status(400).send({ message: "Please fill in the name" });
     }
-
+  
     const newContact = {
-        name: name
+      name: name,
     };
-
+  
     Contacts.create(newContact)
-        .then(data => {
-            res.status(201).send(data); // Use status 201 for resource creation
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occurred"
-            });
+      .then((data) => {
+        res.status(201).send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while creating the contact.",
         });
-};
-
-// Get all contacts
-exports.findAll = (req, res) => {
+      });
+  };
+  
+  // Get all contacts
+  exports.findAll = (req, res) => {
     Contacts.findAll()
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while retrieving contacts.",
+        });
+      });
+  };
+  
+  // Get one contact by id
+  exports.findOne = (req, res) => {
+    const Contactid = req.params.id;
+  
+    Contacts.findByPk(Contactid)
+      .then((data) => {
+        if (!data) {
+          return res.status(404).send({ message: "Contact not found" });
+        }
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while retrieving the contact.",
+        });
+      });
+  };
+  
+  // Update one contact by id
+  exports.update = (req, res) => {
+    const Contactid = req.params.id;
+    const { name } = req.body;
+  
+    Contacts.findByPk(Contactid)
+      .then((contact) => {
+        if (!contact) {
+          return res.status(404).send({ message: "Contact not found" });
+        }
+  
+        contact.name = name;
+        contact
+          .save()
+          .then(() => {
+            res.send(contact);
+          })
+          .catch((err) => {
             res.status(500).send({
-                message: err.message || "Some error occurred"
+              message: err.message || "Some error occurred while updating the contact.",
             });
-        });
-};
-
-// Get one contact by id
-exports.findOne = (req, res) => {
-    const Contactid = req.params.id;
-
-    Contacts.findOne(req.body,{
-        where: {id:Contactid}
-    })
-    .then(data => {
-        res.send(data)
-    })
-    .catch(err => {
+          });
+      })
+      .catch((err) => {
         res.status(500).send({
-            message:
-            err.message || "Some error occurred"
+          message: err.message || "Some error occurred while retrieving the contact.",
         });
-    });
-};
-
-// Update one contact by id
-exports.update = (req, res) => {
+      });
+  };
+  
+  // Delete one contact by id
+  exports.delete = (req, res) => {
     const Contactid = req.params.id;
-
-    Contacts.update(req.body, {
-        where: {id:Contactid}
-    })
-    .then(num => {
-        if (num == 1 ){
-            res.send({
-                message: "Contact was updated successfully."
-            });
-        } else {
-            res.send({
-                message: 'Cannot update Contact'
-            });
-        }
-    })
-    .catch(err => {
-        res.status(500).send({
-            message: "Error updating Contact with id=" + id
-        });
-    });
-};
-
-// Delete one contact by id
-exports.delete = (req, res) => {
-    const Contactid = req.params.id;
-
+  
     Contacts.destroy({
-        where: { id:Contactid }
+      where: { id: Contactid }
     })
-    .then(num => {
-        if (num == 1) {
-            res.send({
-                message: "Contact was deleted successfully!"
-            });
+      .then((num) => {
+        if (num === 1) {
+          res.send({ message: "Contact was deleted successfully!" });
         } else {
-            res.send({
-                message: 'Cannot delete Contact'
-            });
+          res.status(404).send({ message: "Contact not found" });
         }
-    })
-    .catch(err => {
+      })
+      .catch((err) => {
         res.status(500).send({
-            message: "Error deleting Contact with id=" + id
+          message: err.message || "Some error occurred while deleting the contact.",
         });
-    });
-};
+      });
+  };
