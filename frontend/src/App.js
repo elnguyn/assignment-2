@@ -16,7 +16,7 @@ function App() {
 
     return (
         <div className='head'>
-            <List heading='Contactor' contacts={contacts} />
+            <List heading='Contactor' contacts={contacts} setContacts={setContacts}/>
         </div>
     );
 }

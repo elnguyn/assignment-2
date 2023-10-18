@@ -7,7 +7,7 @@ function Contact(props) {
 }
 
 function List(props) {
-    const host = "http://localhost:5000/api"; // Update the host
+    const host = `http://localhost:5000/api`
     const [contacts, setContacts] = useState([]);
     const [newContact, setNewContact] = useState("");
 
@@ -16,7 +16,7 @@ function List(props) {
     }
 
     function addContact() {
-        fetch(host + '/contacts', { // Replaced `${host}` with `host`
+        fetch(`${host}/contacts`, { // Replaced `${host}` with `host`
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ function List(props) {
             .then(response => response.json())
             .then(data => {
                 if (data && data.id) {
-                    setContacts(prevContacts => [...prevContacts, { id: data.id, name: data.name }]); // Include name
+                    setContacts(contacts => [...contacts, { id: data.id, name: data.name }]); // Include name
                 } else {
                     console.error('Error creating contact:', data);
                 }
@@ -38,7 +38,7 @@ function List(props) {
     }
 
     useEffect(() => {
-        fetch(host + '/contacts') // Replaced `${host}` with `host`
+        fetch(`${host}/contacts`) 
             .then(response => response.json())
             .then(data => setContacts(data))
             .catch(error => console.error('Error:', error));
@@ -47,18 +47,20 @@ function List(props) {
     return (
         <div>
             <h1>{props.heading}</h1>
-            <h2>Contacts</h2>
-            <div>
+            <div class='box'> 
+                <h2>Contacts</h2>
                 <div>
-                    <input type='text' placeholder='Name' value={newContact} onChange={changeContact}></input>
-                    <button type='button' className='green' onClick={addContact}>Create Contact</button>
-                </div>
-                {contacts.map(contact => (
+                    <div>
+                        <h3><input type='text' placeholder='Name' value={newContact} onChange={changeContact}></input></h3>
+                        <button type='button' className='green' onClick={addContact}>Create Contact</button>
+                    </div>
+                    {contacts.map(contact => (
                     <Contact
-                        name={contact.name} // Pass the name prop
+                        name={contact.name} 
                         key={contact.id}
                     />
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );

@@ -40,29 +40,30 @@ exports.findAll = (req, res) => {
 };
 
 // Get one contact by id
-exports.findOne = (req, res) => {
-  const Contactid = req.params.id;
+exports.findOne = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const contact = await Contacts.findByPk(id);
 
-  Contacts.findByPk(Contactid)
-    .then((data) => {
-      if (!data) {
-        return res.status(404).send({ message: "Contact not found" });
-      }
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving the contact.",
-      });
+    if (!contact) {
+      return res.status(404).send({ message: "Contact not found" });
+    }
+
+    return res.send(contact);
+  } catch (err) {
+    console.error("Error while retrieving the contact:", err);
+    res.status(500).send({
+      message: "Some error occurred while retrieving the contact.",
     });
+  }
 };
 
 // Update one contact by id
 exports.update = (req, res) => {
-  const Contactid = req.params.id;
+  const id = req.params.id;
   const { name } = req.body;
 
-  Contacts.findByPk(Contactid)
+  Contacts.findByPk(id)
     .then((contact) => {
       if (!contact) {
         return res.status(404).send({ message: "Contact not found" });
@@ -89,10 +90,10 @@ exports.update = (req, res) => {
 
 // Delete one contact by id
 exports.delete = (req, res) => {
-  const Contactid = req.params.id;
+  const id = req.params.id;
 
   Contacts.destroy({
-    where: { id: Contactid }
+    where: { id: id }
   })
     .then((num) => {
       if (num === 1) {
