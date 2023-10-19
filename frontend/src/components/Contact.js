@@ -1,3 +1,5 @@
+
+import React, { useState, useEffect } from 'react';
 function Contact(props) {
 
     const host = "http://localhost:5000/api";

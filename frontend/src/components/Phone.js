@@ -14,6 +14,8 @@ function Phone() {
         setNames(event.target.value);
     }
 
+    
+
 
     useEffect(() => {
         fetch(`${host} + '/contacts'${contactId}/phones`) 
@@ -25,8 +27,8 @@ function Phone() {
 
     return(
         <div>
-            <input type ='text' placeholder='name'></input>
-            <input type ='text' placeholder='Phone number'></input>
+            <input type ='text' placeholder='Name' onChange={addName}></input>
+            <input type ='text' placeholder='Phone number'onChange={addPhone}></input>
             <button type ='button'>Add</button>
         
         </div>

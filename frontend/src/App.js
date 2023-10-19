@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import List from './components/List';
+import List from './components/List.js';
 import './App.css';
 
 function App() {
+    console.log()
     const [contacts, setContacts] = useState([]);
 
     useEffect(() => {

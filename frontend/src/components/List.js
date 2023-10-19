@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
 
+
 function Contact(props) {
+    console.log(props)
     return (
         <div>{props.name}</div>
     );
 }
 
 function List(props) {
-    const host = `http://localhost:5000/api`
+ 
+    const host = 'http://localhost:5000/api'
     const [contacts, setContacts] = useState([]);
-    const [newContact, setNewContact] = useState("");
+    const [newContact, setNewContact] = useState('');
+
+    console.log(props)
 
     function changeContact(event) {
         setNewContact(event.target.value);
     }
 
     function addContact() {
-        fetch(`${host}/contacts`, { // Replaced `${host}` with `host`
+        fetch('http://localhost:5000/api/contacts', { // Replaced `${host}` with `host`
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -38,7 +43,7 @@ function List(props) {
     }
 
     useEffect(() => {
-        fetch(`${host}/contacts`) 
+        fetch('http://localhost:5000/api/contacts') 
             .then(response => response.json())
             .then(data => setContacts(data))
             .catch(error => console.error('Error:', error));
@@ -51,7 +56,7 @@ function List(props) {
                 <h2>Contacts</h2>
                 <div>
                     <div>
-                        <h3><input type='text' placeholder='Name' value={newContact} onChange={changeContact}></input></h3>
+                        <h3><input type='text' placeholder='Name' value={newContact} onChange={changeContact}/></h3>
                         <button type='button' className='green' onClick={addContact}>Create Contact</button>
                     </div>
                     {contacts.map(contact => (
