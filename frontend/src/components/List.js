@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Contacts from ./Contact;
+import Contacts from './Contact.js';
 
 
 function Contact(props) {
